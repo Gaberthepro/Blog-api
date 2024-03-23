@@ -7,26 +7,25 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class PostsService {
-
-  constructor(@InjectModel('Post')  private readonly postModel: Model<Post>){}
+  constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
   create(createPostDto: CreatePostDto) {
     const createdPost = new this.postModel(createPostDto);
     return createdPost.save();
   }
 
-  findAll() {
-    return `This action returns all posts`;
+  async findAll(): Promise<Post[]> {
+    return await this.postModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOne(id: string): Promise<Post> {
+    return await this.postModel.findById(id).exec();
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  update(id: string, updatePostDto: UpdatePostDto): Promise<Post> {
+    return this.postModel.findByIdAndUpdate(id,updatePostDto, {new: true} )
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  remove(id: string) {
+    return this.postModel.findByIdAndDelete(id)
   }
 }
