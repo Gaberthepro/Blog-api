@@ -7,9 +7,12 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('Users') private readonly usersModel: Model<Users>) {}
-  create(createUser: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectModel('Users') private readonly usersModel: Model<Users>,
+  ) {}
+  create(createUserDto: CreateUserDto) {
+    const createdPost = new this.usersModel(createUserDto);
+    return createdPost.save();
   }
 
   findAll() {
