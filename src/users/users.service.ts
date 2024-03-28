@@ -38,8 +38,8 @@ export class UsersService {
   }
 
 
-  async getUser(username: string) {
-    const user = await this.usersModel.findOne({ username });
+  async getUser(email: string) {
+    const user = await this.usersModel.findOne({ email });
     return user;
   }
 }
