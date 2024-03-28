@@ -1,7 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LocalAuthGuard } from 'src/auth/local.auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -10,6 +21,17 @@ export class UsersController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post('/login')
+  login(@Request() req): any {
+    return { User: req.user, msg: 'User logged in' };
+  }
+
+  @Get('/protected')
+  getHello(@Request() req): string {
+    return req.user;
   }
 
   @Get()
