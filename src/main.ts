@@ -13,16 +13,15 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: 'keyboard cat',
+      secret: 'keyboard',
       resave: false,
       saveUninitialized: false,
-      cookie: { maxAge: 3600000 },
     }),
   );
 
   app.use(passport.initialize());
   app.use(passport.session());
-  app.useGlobalPipes(new ValidationPipe());
+
   await app.listen(5000);
 }
 bootstrap();
